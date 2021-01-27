@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>docker scaling</title>
+    <style>
+      pre {
+        background: lightgrey;
+      }
+    </style>
+    <script>
+      var $ = document.querySelector.bind(document)
+      function submitForm(event) {
+        const instructions = $('#instructions').value;
+        const formData = JSON.stringify({
+          instructions: instructions
+        });
+        fetch("/submit", {
+              method: "post",
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: formData
+        }).then(result => result.json()).then(
+          result => $('#results').innerHTML += `\n${instructions}\t${JSON.stringify(result)}`
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <h1>
+      docker-compose worker scaling demo
+    </h1>
+    <h2>
+      Submit a job to the worker nodes
+    </h2>
+    <form onsubmit="return false">
+      <Label for="intructions">
+        Job instructions
+      </Label>
+      <input id="instructions" name="instructions">
+      <button onclick="submitForm()">Submit job</button>
+    </form>
+    <h3>Results</h3>
+    <pre id='results'></pre>
+  </body>
+</html>

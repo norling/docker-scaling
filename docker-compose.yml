@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  worker:
+    build:
+      context: ./
+      dockerfile: dockerfiles/worker
+  server:
+    container_name: server
+    build:
+      context: ./
+      dockerfile: dockerfiles/server
+    volumes:
+      - type: bind
+        source: ./api
+        target: /api
+    ports:
+      - 5000:5000
